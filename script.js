@@ -21,6 +21,12 @@ document.getElementById('submitBtn').addEventListener('click', function(event) {
     }
 });
 
+// Add an event listener to the input element
+document.getElementById('captchaInput').addEventListener('keydown', function(event) {
+    // Prevent the submitBtn click event from being triggered
+    event.preventDefault();
+});
+
 document.getElementById('acceptCookies').addEventListener('click', function() {
     setCookie('cookiesAccepted', true, 1);
     hideCookieBanner();
