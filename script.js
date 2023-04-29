@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (getCookie('buttonClicked')) {
         disableButton();
     }
+
+    if (getCookie('cookiesAccepted')) {
+        hideCookieBanner();
+    }
 });
 
 document.getElementById('submitBtn').addEventListener('click', function(event) {
@@ -11,11 +15,21 @@ document.getElementById('submitBtn').addEventListener('click', function(event) {
     disableButton();
 });
 
+document.getElementById('acceptCookies').addEventListener('click', function() {
+    setCookie('cookiesAccepted', true, 1);
+    hideCookieBanner();
+});
+
 function disableButton() {
     var button = document.getElementById('submitBtn');
     button.disabled = true;
     button.style.backgroundColor = '#cccccc';
     button.style.cursor = 'not-allowed';
+}
+
+function hideCookieBanner() {
+    var banner = document.getElementById('cookieBanner');
+    banner.style.display = 'none';
 }
 
 function setCookie(cname, cvalue, exdays) {
