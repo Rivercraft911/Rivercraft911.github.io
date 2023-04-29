@@ -15,7 +15,7 @@ document.getElementById('submitBtn').addEventListener('click', function(event) {
     if (input.toLowerCase() === 'b') {
         window.location.href = 'chess.html'; // Take the user to the new site
     } else {
-        alert("They are cloning in the woods");
+        alert("Incorrect answer. Please try again.");
         setCookie('buttonClicked', true, 1);
         disableButton();
     }
