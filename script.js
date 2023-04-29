@@ -1,5 +1,5 @@
-window.addEventListener('DOMContentLoaded', function() {
-    if (localStorage.getItem('buttonClicked')) {
+document.addEventListener('DOMContentLoaded', function() {
+    if (getCookie('buttonClicked')) {
         disableButton();
     }
 });
@@ -7,7 +7,7 @@ window.addEventListener('DOMContentLoaded', function() {
 document.getElementById('submitBtn').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent the default behavior
     alert("They are cloning in the woods");
-    localStorage.setItem('buttonClicked', true);
+    setCookie('buttonClicked', true, 1);
     disableButton();
 });
 
@@ -16,4 +16,27 @@ function disableButton() {
     button.disabled = true;
     button.style.backgroundColor = '#cccccc';
     button.style.cursor = 'not-allowed';
+}
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
