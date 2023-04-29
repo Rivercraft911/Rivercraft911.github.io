@@ -10,9 +10,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.getElementById('submitBtn').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent the default behavior
-    alert("They are cloning in the woods");
-    setCookie('buttonClicked', true, 1);
-    disableButton();
+    var input = document.getElementById('captchaInput').value;
+
+    if (input.toLowerCase() === 'b') {
+        window.location.href = 'chess.html'; // Take the user to the new site
+    } else {
+        alert("They are cloning in the woods");
+        setCookie('buttonClicked', true, 1);
+        disableButton();
+    }
 });
 
 document.getElementById('acceptCookies').addEventListener('click', function() {
@@ -38,19 +44,6 @@ function setCookie(cname, cvalue, exdays) {
     var expires = "expires="+d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
-
-document.getElementById('submitBtn').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the default behavior
-    var input = document.getElementById('captchaInput').value;
-
-    if (input.toLowerCase() === 'b') {
-        window.location.href = 'chess.html';
-    } else {
-        alert("They are cloning in the woods");
-        setCookie('buttonClicked', true, 1);
-        disableButton();
-    }
-});
 
 function getCookie(cname) {
     var name = cname + "=";
