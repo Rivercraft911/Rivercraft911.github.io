@@ -39,6 +39,19 @@ function setCookie(cname, cvalue, exdays) {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
+document.getElementById('submitBtn').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default behavior
+    var input = document.getElementById('captchaInput').value;
+
+    if (input.toLowerCase() === 'b') {
+        window.location.href = 'chess.html';
+    } else {
+        alert("They are cloning in the woods");
+        setCookie('buttonClicked', true, 1);
+        disableButton();
+    }
+});
+
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
