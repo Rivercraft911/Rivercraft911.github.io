@@ -21,11 +21,6 @@ document.getElementById('submitBtn').addEventListener('click', function(event) {
     }
 });
 
-// Remove the event listener that we added earlier
-// document.getElementById('captchaInput').addEventListener('keydown', function(event) {
-//     event.preventDefault();
-// });
-
 document.getElementById('acceptCookies').addEventListener('click', function() {
     setCookie('cookiesAccepted', true, 1);
     hideCookieBanner();
