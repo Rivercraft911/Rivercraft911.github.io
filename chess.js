@@ -1,5 +1,8 @@
 var board,
     game = new Chess();
+
+/* board initialization and configuration starts here */
+
 var cfg = {
     draggable: true,
     position: 'start',
@@ -9,29 +12,10 @@ var cfg = {
     onMouseoverSquare: onMouseoverSquare,
     onSnapEnd: onSnapEnd
 };
+
 board = ChessBoard('chessBoard', cfg);
 
-var onMouseoverSquare = function(square, piece) {};
-var onMouseoutSquare = function(square, piece) {};
-var onSnapEnd = function() {
-    board.position(game.fen());
-};
-var onDrop = function(source, target) {
-    // See if the move is legal
-    var move = game.move({
-        from: source,
-        to: target,
-        promotion: 'q' // NOTE: Always promote to a queen for simplicity
-    });
-
-    // Illegal move
-    if (move === null) {
-        return 'snapback';
-    }
-
-    // Make the best move for black
-    window.setTimeout(makeBestMove, 250);
-};
+/* board initialization and configuration ends here */
 
 /* board visualization and games state handling starts here*/
 
@@ -146,23 +130,59 @@ var renderMoveHistory = function(moveHistory) {
             ( moveHistory[i + 1] ? moveHistory[i + 1] : ' ') + '</span><br>');
     }
     historyElement.scrollTop(historyElement[0].scrollHeight);
-
 };
 
-var onDrop = function(source, target)
-/* board initialization and configuration starts here */
+var onDrop = function(source, target) {
+    var move = game.move({
+        from: source,
+        to: target,
+        promotion: 'q'
+    });
 
-var cfg = {
-    draggable: true,
-    position: 'start',
-    onDragStart: onDragStart,
-    onDrop: onDrop,
-    onMouseoutSquare: onMouseoutSquare,
-    onMouseoverSquare: onMouseoverSquare,
-    onSnapEnd: onSnapEnd
+    removeGreySquares();
+    if (move === null) {
+        return 'snapback';
+    }
+
+    window.setTimeout(makeBestMove, 250);
 };
 
-board = ChessBoard('chessBoard', cfg);
+var onMouseoverSquare = function(square, piece) {
+    var moves = game.moves({
+        square: square,
+        verbose: true
+    });
 
-/* board initialization and configuration ends here */
+    if (moves.length === 0) return;
 
+    greySquare(square);
+
+    for (var i = 0; i < moves.length; i++) {
+        greySquare(moves[i].to);
+    }
+};
+
+var onMouseoutSquare = function(square, piece) {
+    removeGreySquares();
+};
+
+var onSnapEnd = function() {
+    board.position(game.fen());
+};
+
+var removeGreySquares = function() {
+    $('#chessBoard .square-55d63').css('background', '');
+};
+
+var greySquare = function(square) {
+    var squareEl = $('#chessBoard .square-' + square);
+
+    var background = '#a9a9a9';
+    if (squareEl.hasClass('black-3c85d') === true) {
+        background = '#696969';
+    }
+
+    squareEl.css('background', background);
+};
+
+/* board helpers end here */
