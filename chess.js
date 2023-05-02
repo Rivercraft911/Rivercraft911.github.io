@@ -11,6 +11,27 @@ var cfg = {
 };
 board = ChessBoard('chessBoard', cfg);
 
+var onMouseoverSquare = function(square, piece) {};
+var onMouseoutSquare = function(square, piece) {};
+var onSnapEnd = function() {
+    board.position(game.fen());
+};
+var onDrop = function(source, target) {
+    // See if the move is legal
+    var move = game.move({
+        from: source,
+        to: target,
+        promotion: 'q' // NOTE: Always promote to a queen for simplicity
+    });
+
+    // Illegal move
+    if (move === null) {
+        return 'snapback';
+    }
+
+    // Make the best move for black
+    window.setTimeout(makeBestMove, 250);
+};
 
 /* board visualization and games state handling starts here*/
 
