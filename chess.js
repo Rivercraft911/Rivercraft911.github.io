@@ -1,5 +1,16 @@
 var board,
     game = new Chess();
+var cfg = {
+    draggable: true,
+    position: 'start',
+    onDragStart: onDragStart,
+    onDrop: onDrop,
+    onMouseoutSquare: onMouseoutSquare,
+    onMouseoverSquare: onMouseoverSquare,
+    onSnapEnd: onSnapEnd
+};
+board = ChessBoard('chessBoard', cfg);
+
 
 /* board visualization and games state handling starts here*/
 
