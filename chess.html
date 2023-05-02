@@ -3,35 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robot Test #2</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.css" integrity="sha512-/K3TajPGj+7x/afn/8A32m+ZwHmI3r3cULkCmzy+XfI1DkhzQoz2P8xRc14h5Y88ECk+5S2Fs5g5O5f9yblD5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.js" integrity="sha512-+IBaT1c/vg3uyAf05P3q3WFRt7dUGItzDyAZ7Fk3qWfV8cyuqz1Rn7XDf/x19a5fo5h5vk5yA7kL5S5iEGz2PQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.min.js" integrity="sha384-nfUMOg5cjLbOxsFWyfjKdmn4NveO9XgBx4xh2tkW6qlyKvUjClrsrAPr6U8b6aJ/" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stockfish/13.0.1/stockfish.asm.js" integrity="sha384-4f6sD7Bm4tjGm0dWzI1qeC7X9fSL/30l7IOM8tWLFN7Nfz2KvpCjjPWH8ZvzDx1I" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-        }
-        .wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-    </style>
+    <title>Chess AI</title>
+    <link rel="stylesheet" href="chessboard-1.0.0.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="chessboard-1.0.0.min.js"></script>
 </head>
 <body>
-    <div class="wrapper">
-        <h1>Robot Test #2</h1>
-        <div id="chessBoard"></div>
-        <button id="continueBtn" disabled>Continue</button>
+    <div style="text-align: center;">
+        <h1>Play Chess Against AI</h1>
+        <div id="board" style="margin: 0 auto;"></div>
+        <br>
+        <button id="newGame">New Game</button>
     </div>
-    <script src="chess.js"></script>
+
+    <script>
+        // Initialize the chessboard
+        const board = Chessboard("board", {
+            position: "start",
+            draggable: true,
+            onDrop: handleMove,
+        });
+
+        let stockfish;
+
+        // Initialize the Stockfish engine
+        function initStockfish() {
+            stockfish = new Worker("stockfish_15.1_win_x64_avx2.exe");
+            stockfish.onmessage = (event) => {
+                if (event.data.includes("bestmove")) {
+                    const move = event.data.split(" ")[1];
+                    board.move(move);
+                    board.position(board.fen());
+                }
+            };
+        }
+
+        initStockfish();
+
+        // Start a new game
+        document.getElementById("newGame").addEventListener("click", () => {
+            board.start();
+            initStockfish();
+        });
+
+        // Handle moves made by the user
+        function handleMove(source, target) {
+            const move = `${source}${target}`;
+
+            // Send the user's move to Stockfish
+            stockfish.postMessage(`position fen ${board.fen()}`);
+            stockfish.postMessage("go depth 15");
+        }
+    </script>
 </body>
 </html>
