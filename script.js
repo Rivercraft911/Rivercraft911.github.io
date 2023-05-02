@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.getElementById('submitBtn').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent the default behavior
-    alert("They are cloning in the woods");
+    checkCaptcha();
     setCookie('buttonClicked', true, 1);
     disableButton();
 });
@@ -19,6 +19,16 @@ document.getElementById('acceptCookies').addEventListener('click', function() {
     setCookie('cookiesAccepted', true, 1);
     hideCookieBanner();
 });
+
+function checkCaptcha() {
+    const userInput = document.getElementById('captchaInput').value;
+    if (userInput.toLowerCase() === 'b') {
+        // Redirect to the chess site
+        window.location.href = 'chess.html';
+    } else {
+        alert("Incorrect! Try again.");
+    }
+}
 
 function disableButton() {
     var button = document.getElementById('submitBtn');
