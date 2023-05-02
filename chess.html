@@ -3,57 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess AI</title>
-    <link rel="stylesheet" href="chessboard-1.0.0.min.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="chessboard-1.0.0.min.js"></script>
+    <title>Chess</title>
+    <link rel="stylesheet" href="./chessboardjs-1.0.0/css/chessboard-1.0.0.min.css">
+    <script src="./chess.js/0.10.2/chess.js"></script>
+    <script src="./chessboardjs-1.0.0/js/chessboard-1.0.0.min.js"></script>
+    <script src="./chess_random.js"></script>
 </head>
 <body>
-    <div style="text-align: center;">
-        <h1>Human Test #2</h1>
-        <div id="board" style="margin: 0 auto;"></div>
-        <br>
-        <button id="newGame">New Game</button>
-    </div>
-
-    <script>
-        // Initialize the chessboard
-        const board = Chessboard("board", {
-            position: "start",
-            draggable: true,
-            onDrop: handleMove,
-        });
-
-        let stockfish;
-
-        // Initialize the Stockfish engine
-        function initStockfish() {
-            stockfish = new Worker("stockfish_15.1_win_x64_avx2.exe");
-            stockfish.onmessage = (event) => {
-                if (event.data.includes("bestmove")) {
-                    const move = event.data.split(" ")[1];
-                    board.move(move);
-                    board.position(board.fen());
-                }
-            };
-        }
-
-        initStockfish();
-
-        // Start a new game
-        document.getElementById("newGame").addEventListener("click", () => {
-            board.start();
-            initStockfish();
-        });
-
-        // Handle moves made by the user
-        function handleMove(source, target) {
-            const move = `${source}${target}`;
-
-            // Send the user's move to Stockfish
-            stockfish.postMessage(`position fen ${board.fen()}`);
-            stockfish.postMessage("go depth 15");
-        }
-    </script>
+    <div id="myBoard" style="width: 400px"></div>
 </body>
 </html>
