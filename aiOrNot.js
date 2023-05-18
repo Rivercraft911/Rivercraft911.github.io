@@ -1,6 +1,6 @@
 document.getElementById('leftGenerated').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent the default behavior
-    window.location.href = 'nextPage.html'; // Redirect to the next page if left is the correct answer
+    window.location.href = 'meowmeow.html'; // Redirect to the next page if left is the correct answer
 });
 
 document.getElementById('rightGenerated').addEventListener('click', function(event) {
