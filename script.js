@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.getElementById('submitBtn').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the default behavior
+    event.preventDefault(); 
     checkCaptcha();
     setCookie('buttonClicked', true, 1);
     disableButton();
@@ -23,7 +23,7 @@ document.getElementById('acceptCookies').addEventListener('click', function() {
 function checkCaptcha() {
     const userInput = document.getElementById('captchaInput').value;
     if (userInput.toLowerCase() === 'b') {
-        // Redirect to the chess site
+        // redirect to  chess
         window.location.href = 'chess.html';
     } else {
         alert("Incorrect! Try again.");
