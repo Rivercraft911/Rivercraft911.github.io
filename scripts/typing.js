@@ -7,7 +7,7 @@
  * @param {number} speed - ms per char
  * @param {function} callback - optional callback
  */
-function typewriter(text, target, speed = 2, callback) {
+function typewriter(text, target, speed = -1000, callback) {
   let idx = 0;
   const timer = setInterval(() => {
     target.textContent += text[idx];
