@@ -1,98 +1,144 @@
 // tesseract.js
-let angle = 0;
-let points = [];
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("tesseract.js: Attempting to draw a 4D Tesseract...");
 
-function setup() {
-  // Create a p5 canvas that fills the screen behind everything
-  let c = createCanvas(windowWidth, windowHeight, WEBGL);
-  c.id("tesseract-canvas"); // so it matches your style
-  // By default, p5 creates a <canvas> at z-index: 0, 
-  // but we can push it behind other elements:
-  c.elt.style.zIndex = "-999";
-  c.elt.style.position = "fixed";
-  c.elt.style.top = "0";
-  c.elt.style.left = "0";
+  const canvas = document.getElementById("tesseract-canvas");
+  if (!canvas) {
+    console.error("No #tesseract-canvas found!");
+    return;
+  }
+  const ctx = canvas.getContext("2d");
 
-  // 16 points of a hypercube (similar to your existing points)
-  points = [
-    createVector(-1, -1,  1,  1),
-    createVector( 1, -1,  1,  1),
-    createVector( 1,  1,  1,  1),
-    createVector(-1,  1,  1,  1),
-    createVector(-1, -1, -1,  1),
-    createVector( 1, -1, -1,  1),
-    createVector( 1,  1, -1,  1),
-    createVector(-1,  1, -1,  1),
-    createVector(-1, -1,  1, -1),
-    createVector( 1, -1,  1, -1),
-    createVector( 1,  1,  1, -1),
-    createVector(-1,  1,  1, -1),
-    createVector(-1, -1, -1, -1),
-    createVector( 1, -1, -1, -1),
-    createVector( 1,  1, -1, -1),
-    createVector(-1,  1, -1, -1)
+  // Match the canvas to window size
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  // 16 points of a 4D hypercube
+  const points = [
+    [-1, -1,  1,  1],
+    [ 1, -1,  1,  1],
+    [ 1,  1,  1,  1],
+    [-1,  1,  1,  1],
+    [-1, -1, -1,  1],
+    [ 1, -1, -1,  1],
+    [ 1,  1, -1,  1],
+    [-1,  1, -1,  1],
+    [-1, -1,  1, -1],
+    [ 1, -1,  1, -1],
+    [ 1,  1,  1, -1],
+    [-1,  1,  1, -1],
+    [-1, -1, -1, -1],
+    [ 1, -1, -1, -1],
+    [ 1,  1, -1, -1],
+    [-1,  1, -1, -1]
   ];
-}
 
-function draw() {
-  background(15, 20, 27); // a dark background
-  // Move origin to center
-  translate(width/2, height/2);
+  let angleXW = 0; // Rotation around x–w
+  let angleYZ = 0; // Rotation around y–z
 
-  // Rotate in “4D” by messing with angles in 3D plus extra dimension
-  angle += 0.01;
+  /**
+   * rotate4D(vec, aXW, aYZ)
+   */
+  function rotate4D(vec, aXW, aYZ) {
+    // vec = [x, y, z, w]
+    let [x, y, z, w] = vec;
 
-  // We'll project 4D -> 3D -> 2D 
-  let projected = [];
-  for (let v of points) {
-    let rotated = rotate4D(v, angle);
-    // Basic perspective
-    let w = 1 / (2 - rotated.w);
-    let x = (rotated.x * w) * 200;
-    let y = (rotated.y * w) * 200;
-    let z = (rotated.z * w) * 200;
-    projected.push(createVector(x, y, z));
+    // --- 1) Rotation in the x–w plane ---
+    const cxw = Math.cos(aXW);
+    const sxw = Math.sin(aXW);
+    // x' = x*cos - w*sin
+    // w' = x*sin + w*cos
+    let x1 = x * cxw - w * sxw;
+    let w1 = x * sxw + w * cxw;
+
+    // --- 2) Rotation in the y–z plane ---
+    const cyz = Math.cos(aYZ);
+    const syz = Math.sin(aYZ);
+    // y' = y*cos - z*sin
+    // z' = y*sin + z*cos
+    let y1 = y * cyz - z * syz;
+    let z1 = y * syz + z * cyz;
+
+    return [x1, y1, z1, w1];
   }
 
-  stroke(0, 255, 0);
-  strokeWeight(2);
-  noFill();
+  function projectTo2D(vec4) {
+    const distance = 2.5;
+    const wFactor = 1 / (distance - vec4[3]);
+    let x3D = vec4[0] * wFactor;
+    let y3D = vec4[1] * wFactor;
+    let z3D = vec4[2] * wFactor;
 
-  // Edges: connect points that differ by 1 bit in their indexes
-  // This is a simplified approach for p5
-  for (let i = 0; i < 16; i++) {
-    for (let j = i+1; j < 16; j++) {
-      let diff = bitCount(i ^ j);
-      if (diff === 1) {
-        line(projected[i].x, projected[i].y, projected[i].z, 
-             projected[j].x, projected[j].y, projected[j].z);
+    const zFactor = 1 / (distance - z3D);
+    const x2D = x3D * zFactor;
+    const y2D = y3D * zFactor;
+
+    return [x2D, y2D];
+  }
+
+  function bitCount(n) {
+    let count = 0;
+    while (n > 0) {
+      count += n & 1;
+      n >>= 1;
+    }
+    return count;
+  }
+
+  function drawLine(p1, p2) {
+    ctx.beginPath();
+    ctx.moveTo(p1[0], p1[1]);
+    ctx.lineTo(p2[0], p2[1]);
+    ctx.stroke();
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // background
+    ctx.fillStyle = "#0e141b";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Move to center of screen
+    ctx.save();
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+
+    // Rotate each point in 4D, project to 2D
+    const projected = [];
+    for (let i = 0; i < points.length; i++) {
+      // We now pass in angleXW and angleYZ
+      const rotated = rotate4D(points[i], angleXW, angleYZ);
+      const projected2D = projectTo2D(rotated);
+
+      // Scale up
+      const scale = 400;
+      projected.push([
+        projected2D[0] * scale,
+        projected2D[1] * scale
+      ]);
+    }
+
+    // Set stroke style for edges
+    ctx.strokeStyle = "lime";
+    ctx.lineWidth = 2;
+
+    // Connect edges if bit difference == 1
+    for (let i = 0; i < 16; i++) {
+      for (let j = i + 1; j < 16; j++) {
+        if (bitCount(i ^ j) === 1) {
+          drawLine(projected[i], projected[j]);
+        }
       }
     }
+
+    ctx.restore();
+
+    // Increment angles for next frame
+    angleXW += 0.005;
+    angleYZ += 0.0055;
+
+    requestAnimationFrame(animate);
   }
-}
 
-// Simple 4D rotation around xw axis
-function rotate4D(vec, a) {
-  let c = cos(a);
-  let s = sin(a);
-  // rotate vector around x-w plane
-  let x = vec.x * c - vec.w * s;
-  let w = vec.x * s + vec.w * c;
-
-  // return new “vector4”
-  return { x: x, y: vec.y, z: vec.z, w: w };
-}
-
-// Counts number of bits in an integer
-function bitCount(n) {
-  let count = 0;
-  while (n > 0) {
-    count += n & 1;
-    n >>= 1;
-  }
-  return count;
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
+  animate(); 
+});

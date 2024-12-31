@@ -52,10 +52,12 @@
   /* Terminal wrapper */
   .terminal-wrapper {
     position: relative;
+    margin-top: 20vh; /* push it down if ASCII is in the way */
     width: 70%;
-    max-width: 900px; /* slightly bigger if you want */
-    margin: auto; margin-top: 20vh;
-    background: var(--terminal-bg);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(0, 0, 0, 0.5); /* see-through black */
     border: 1px solid var(--border-color);
     border-radius: 4px;
     box-shadow: 0 0 15px rgba(0,0,0,0.8);
@@ -63,6 +65,7 @@
     flex-direction: column;
     overflow: hidden;
   }
+  
   
   /* Terminal lines (top & output) */
   .terminal-line {
