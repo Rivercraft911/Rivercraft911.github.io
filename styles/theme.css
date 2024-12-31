@@ -1,0 +1,13 @@
+:root {
+    --body-bg: #0e141b;      /* a bit lighter blackish background */
+    --text-color: #d2d2d2;   /* slightly lighter text */
+    --prompt-color: #00fe83; /* a bright green */
+    --cmd-color: #00fe83; 
+    --ascii-color: #61dafb;
+    --border-color: #444;
+    --terminal-bg: rgba(0, 0, 0, 0.5);
+    --terminal-bg-darker: rgba(0, 0, 0, 0.7);
+    --cursor-color: #00fe83; /* bright green for the block cursor */
+    --accent-color: #ffae57;
+  }
+  

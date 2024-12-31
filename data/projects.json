@@ -1,0 +1,12 @@
+{
+    "projects": [
+      {
+        "title": "4D Tesseract Visualization",
+        "description": "A hypercube rendered on a canvas, spinning in 4D space.",
+        "github": "https://github.com/janedev/4d-tesseract",
+        "demo": "",
+        "link": ""
+      }
+    ]
+  }
+  

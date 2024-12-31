@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta 
+    name="viewport" 
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>My Tesseract Terminal</title>
+  <link
+  href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles/style.css" />
+  <link rel="stylesheet" href="styles/theme.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/tesseract.css" />
+</head>
+<body>
+  <!-- Boot Screen -->
+  <div id="boot-screen" class="boot-screen">
+    <div class="boot-line">[0.00] Initializing Terminal Environment...</div>
+    <div class="boot-line">[0.10] Connecting to Tesseract engine...</div>
+    <div class="boot-line">[0.25] Accepting any applications submitted by River...</div>
+    <div class="boot-line">[0.40] Press any key to continue...</div>
+  </div>
+
+  <!-- Tesseract Canvas -->
+  <canvas id="tesseract-canvas"></canvas>
+
+  <!-- ASCII Art (Left) -->
+  <div class="ascii-art-container">
+    <pre id="ascii-art" class="ascii-art"></pre>
+  </div>
+
+  <!-- ASCII Art (Right) -->
+  <div class="ascii-art-portrait-container">
+    <pre id="ascii-art-portrait" class="ascii-art portrait"></pre>
+  </div>
+
+  <!-- Terminal Window -->
+  <div class="terminal-wrapper">
+    <!-- Top typed line (no flashing cursor up here) -->
+    <div class="terminal-line" id="welcome-line">
+      <span class="prompt-label">visitor@rivercraftterminal.dev:~$</span>
+      <span id="typed-text"></span>
+    </div>
+
+    <!-- Main output area -->
+    <div id="terminal-screen" class="terminal-screen"></div>
+
+    <!-- Custom input line w/ blinking block -->
+    <div class="terminal-input-line">
+      <span class="prompt-label">visitor@rivercraftterminal.dev:~$</span>
+      <div id="custom-input" class="custom-input" contenteditable="true"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="scripts/boot.js"></script>
+  <script src="scripts/typing.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.min.js"></script>
+  <script src="scripts/tesseract.js"></script>
+  <script src="scripts/main.js"></script>
+  <script src="scripts/projects.js"></script>
+  <script src="scripts/terminal.js"></script>
+</body>
+</html>
