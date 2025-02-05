@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     about: {
       action: () => {
-        printLine("Hello, I'm River Dowdy. I am a freshman at Stanford who wants to change the very paradigm of how we think about the world. I want to design and create things that have never been seen before or thought of. \n\nI am passionate about pretty much anything engineering, from IC design to biocomputing!! \n\nYou will often find me working on my sadly still-not-finished Redstone computer, climbing, 3working on silly projects, playing racing games, and playing my mini didgeridoo.");
+        printLine("Hello, I'm River Dowdy. I am a freshman at Stanford who wants to change the very paradigm of how we think about the world. I want to design and create things that have never been seen before or thought of. \n\nI am passionate about pretty much anything engineering, from IC design to biocomputing!! \n\nYou will often find me working on my sadly still-not-finished Redstone computer, climbing, working on silly projects, playing racing games, and playing my mini didgeridoo.");
       }
     },
     contact: {
