@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const terminalScreen = document.getElementById("terminal-screen");
   const customInput = document.getElementById("custom-input");
 
-  // store the "typed" text in a variable
   let currentInput = "";
 
   // commands

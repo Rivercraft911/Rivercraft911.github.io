@@ -2,151 +2,163 @@
 
 /* Boot screen with slide effect */
 .boot-screen {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: #0e141b;
-    color: var(--prompt-color);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-left: 20px;
-    z-index: 9999;
-    font-size: 1rem;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: #0e141b;
+  color: var(--prompt-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 20px;
+  z-index: 9999;
+  font-size: 1rem;
+}
+
+.boot-line {
+  opacity: 0;
+  margin: 5px 0;
+  transform: translateX(-20px);
+  animation: bootFade 0.7s forwards;
+}
+
+.boot-line:nth-child(1) { animation-delay: 0.3s; }
+.boot-line:nth-child(2) { animation-delay: 1.0s; }
+.boot-line:nth-child(3) { animation-delay: 1.7s; }
+.boot-line:nth-child(4) { animation-delay: 2.4s; }
+
+@keyframes bootFade {
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
-  .boot-line {
+}
+
+/* ASCII containers (left, right) */
+.ascii-art-container {
+  position: fixed; 
+  top: 20px; 
+  left: 20px;
+  pointer-events: none;
+  color: var(--ascii-color);
+  z-index: 2; 
+}
+
+.ascii-art-portrait-container {
+  position: fixed; 
+  top: 20px; 
+  right: 20px;
+  pointer-events: none;
+  color: var(--ascii-color);
+  z-index: 2; 
+}
+
+.ascii-art {
+  font-size: 1rem; 
+  line-height: 1.1rem;
+  white-space: pre;
+}
+
+/* Terminal wrapper */
+.terminal-wrapper {
+  position: relative;
+  margin-top: 25vh;
+  width: 85%;
+  max-width: 9999px;
+  margin-left: auto;
+  margin-right: auto;
+  background: rgba(0, 0, 0, 0.35); 
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1; 
+}
+
+/* Rest of your CSS remains exactly the same */
+.terminal-line {
+  display: flex;
+  align-items: baseline;
+  font-size: 1.05rem; /* bigger font */
+  padding: 6px 12px;
+  color: var(--text-color);
+}
+
+.prompt-label {
+  color: var(--prompt-color);
+  margin-right: 6px;
+}
+
+/* Output area */
+.terminal-screen {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 12px;
+}
+
+/* Input line at bottom */
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+  background: var(--terminal-bg-darker);
+  padding: 6px 12px;
+}
+
+.custom-input {
+  outline: none; border: none; background: transparent;
+  color: transparent; /* hide actual text */
+  flex: 1;
+  font-size: 1.05rem;
+  font-family: inherit;
+  position: relative;
+  caret-color: transparent;
+}
+
+/* Show typed text via data-content */
+.custom-input::before {
+  content: attr(data-content);
+  color: var(--text-color);
+  white-space: pre-wrap;
+}
+
+/* Blinking block cursor, slow down blink to 2s */
+.custom-input::after {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 18px;
+  background: var(--cursor-color);
+  margin-left: 2px;
+  animation: slowBlink 2s step-end infinite;
+  vertical-align: baseline;
+}
+
+/* Slowed blink */
+@keyframes slowBlink {
+  50% {
     opacity: 0;
-    margin: 5px 0;
-    transform: translateX(-20px);
-    animation: bootFade 0.7s forwards;
   }
-  .boot-line:nth-child(1) { animation-delay: 0.3s; }
-  .boot-line:nth-child(2) { animation-delay: 1.0s; }
-  .boot-line:nth-child(3) { animation-delay: 1.7s; }
-  .boot-line:nth-child(4) { animation-delay: 2.4s; }
-  
-  @keyframes bootFade {
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+}
+
+/* Scrollbar style (optional) */
+.terminal-screen::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-screen::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .ascii-art-container, .ascii-art-portrait-container {
+    display: none;
   }
-  
-  /* ASCII containers (left, right) */
-  .ascii-art-container {
-    position: absolute; top: 20px; left: 20px;
-    pointer-events: none;
-    color: var(--ascii-color);
-  }
-  .ascii-art-portrait-container {
-    position: absolute; top: 20px; right: 20px;
-    pointer-events: none;
-    color: var(--ascii-color);
-  }
-  .ascii-art {
-    font-size: 1rem;     /* slightly bigger ASCII */
-    line-height: 1.1rem; 
-    white-space: pre;
-  }
-  
-  /* Terminal wrapper */
   .terminal-wrapper {
-    position: relative;
-    margin-top: 20vh; /* push it down if ASCII is in the way */
-    width: 70%;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-    background: rgba(0, 0, 0, 0.5); /* see-through black */
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.8);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    width: 90%;
+    margin-top: 20vh; /* Reduced margin on mobile since ASCII is hidden */
   }
-  
-  
-  /* Terminal lines (top & output) */
-  .terminal-line {
-    display: flex;
-    align-items: baseline;
-    font-size: 1.05rem; /* bigger font */
-    padding: 6px 12px;
-    color: var(--text-color);
-  }
-  .prompt-label {
-    color: var(--prompt-color);
-    margin-right: 6px;
-  }
-  
-  /* Output area */
-  .terminal-screen {
-    flex: 1;
-    overflow-y: auto;
-    padding: 6px 12px;
-  }
-  
-  /* Input line at bottom */
-  .terminal-input-line {
-    display: flex;
-    align-items: center;
-    border-top: 1px solid var(--border-color);
-    background: var(--terminal-bg-darker);
-    padding: 6px 12px;
-  }
-  
-  .custom-input {
-    outline: none; border: none; background: transparent;
-    color: transparent; /* hide actual text */
-    flex: 1;
-    font-size: 1.05rem;
-    font-family: inherit;
-    position: relative;
-    caret-color: transparent;
-  }
-  
-  /* Show typed text via data-content */
-  .custom-input::before {
-    content: attr(data-content);
-    color: var(--text-color);
-    white-space: pre-wrap;
-  }
-  
-  /* Blinking block cursor, slow down blink to 2s */
-  .custom-input::after {
-    content: "";
-    display: inline-block;
-    width: 8px; 
-    height: 18px;
-    background: var(--cursor-color);
-    margin-left: 2px;
-    animation: slowBlink 2s step-end infinite;
-    vertical-align: baseline;
-  }
-  
-  /* Slowed blink */
-  @keyframes slowBlink {
-    50% {
-      opacity: 0;
-    }
-  }
-  
-  /* Scrollbar style (optional) */
-  .terminal-screen::-webkit-scrollbar {
-    width: 8px;
-  }
-  .terminal-screen::-webkit-scrollbar-thumb {
-    background: #555; 
-    border-radius: 4px;
-  }
-  
-  @media (max-width: 768px) {
-    .ascii-art-container, .ascii-art-portrait-container {
-      display: none;
-    }
-    .terminal-wrapper {
-      width: 90%;
-    }
-  }
-  
+}
