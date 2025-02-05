@@ -1,12 +1,46 @@
 {
-    "projects": [
-      {
-        "title": "trust me its real",
-        "description": "i am describing it now trust",
-        "github": "https://github.com/rivercraft/dadawd",
-        "demo": "",
-        "link": ""
-      }
-    ]
-  }
-  
+  "projects": [
+    {
+      "title": "InfiniteRecon",
+      "description": "A modern take on the CIAs old Infinity transmitter using ESP32-S3 and INMP441 I2S MEMS microphone. Features real-time audio streaming, speech-to-text, speaker identification, and configurable alerts via a web dashboard.",
+      "github": "https://github.com/Rivercraft911/InfiniteRecon",
+      "demo": "",
+      "link": ""
+    },
+    {
+      "title": "Magnetorquer Optimization Tool",
+      "description": "Tool for optimizing PCB magnetorquer coils by calculating optimal trace widths to maximize magnetic moment. Considers constraints like trace spacing, current density, and power limitations.",
+      "github": "https://github.com/Rivercraft911/magtorque-optimization",
+      "demo": "",
+      "link": ""
+    },
+    {
+      "title": "Centurion",
+      "description": "An experimental cryptocurrency token with a unique twist - only 100 coins exist! A fun project exploring blockchain technology with artificial scarcity.",
+      "github": "https://github.com/Rivercraft911/Centurion",
+      "demo": "",
+      "link": ""
+    },
+    {
+      "title": "HiveHub",
+      "description": "AI-powered beehive monitoring system using ESP8266 and environmental sensors. Features real-time alerts via mobile app and ChatGPT API integration for intelligent monitoring.",
+      "github": "",
+      "demo": "",
+      "link": ""
+    },
+    {
+      "title": "Pathfinder",
+      "description": "School safety system using microcontrollers and sensors for gunshot detection and smart evacuation guidance. Features LED-based pathfinding and real-time threat response.",
+      "github": "",
+      "demo": "",
+      "link": ""
+    },
+    {
+      "title": "GyroWing",
+      "description": "World's first active gyrating motorcycle wing for enhanced aerodynamic stability. Uses custom algorithms on ESP32 and Raspberry Pi with real-time sensor feedback.",
+      "github": "",
+      "demo": "",
+      "link": ""
+    }
+  ]
+}
