@@ -140,7 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Ensure scrolling after typewriter effect
   function typewriter(text, element, speed, callback) {
     let i = 0;
     function type() {
